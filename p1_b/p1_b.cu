@@ -49,6 +49,8 @@ __global__ void step_periodic_Soa(int * array,int rows, int cols){
       }
     }
     //streaming
+
+    //right
     int c_aux = x + 1; 
     if (c_aux == cols){
         c_aux = 0;
