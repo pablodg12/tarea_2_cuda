@@ -5,7 +5,7 @@ void printMatrix(const int *A, int rows, int cols) {
     for(int i = 0; i < rows*cols*4; i++){
         printf("%d ", A[i]);   
         printf(" ");
-        if ((i+1)%9 == 0){
+        if ((i+1)%4 == 0){
           printf("|");
         }
     }
