@@ -29,82 +29,91 @@ void readInput_aos(const char *filename, int **Aos, int *rows, int *cols) {
 }
 
 __global__ void step_periodic_Aos(int * array,int rows, int cols){
+  extern __shared__ int buffer[];
   int tId = threadIdx.x + blockIdx.x * blockDim.x;
+  if(threadIdx.x < 256){
+    for(int i = threadIdx.x; i < rows*cols; i+=256 ){
+      if (array[i*4+0] == 1 && array[i*4+2] == 1){
+        if(array[i*4+1] == 0 && array[i*4+3] == 0){
+          buffer[i*4+0] = 0;
+          buffer[i*4+2] = 0;
+          buffer[i*4+1] = 1;
+          buffer[i*4+3] = 1;
+        }
+      }else if(array[i*4+1] == 1 && array[i*4+3] == 1){
+        if(array[i*4+0] == 0 && array[i*4+2] == 0){
+          buffer[i*4+1] = 0;
+          buffer[i*4+3] = 0;
+          buffer[i*4+0] = 1;
+          buffer[i*4+2] = 1;
+          }
+        }else{
+          buffer[i*4+1] = array[i*4+1];
+          buffer[i*4+3] = array[i*4+3];
+          buffer[i*4+0] = array[i*4+0];
+          buffer[i*4+2] = array[i*4+2];
+      }
+    }
+  }
+  __syncthreads();
+
+  if(tId == 1){
+    for(int i = 0; i < rows*cols*4;i++){
+      printf("%d ", buffer[i]);
+      printf(" ");
+    if ((i+1)%4 == 0){
+          printf("|");
+      }
+  }
+  printf("\n");
+}
   if (tId < rows*cols){
     int x = tId%(cols);
     int y = (int) tId/rows;
 
-    //Colission
-
-    if (array[tId*4+0] == 1 && array[tId*4+2] == 1){
-      if(array[tId*4+1] == 0 && array[tId*4+3] == 0){
-        array[tId*4+0] = 0;
-        array[tId*4+2] = 0;
-        array[tId*4+1] = 1;
-        array[tId*4+3] = 1;
-      }
-    }
-    if (array[tId*4+1] == 1 && array[tId*4+3] == 1){
-      if(array[tId*4+0] == 0 && array[tId*4+2] == 0){
-        array[tId*4+1] = 0;
-        array[tId*4+3] = 0;
-        array[tId*4+0] = 1;
-        array[tId*4+2] = 1;
-      }
-    }
-
-    //streaming 
-
-    //right
-    int c_aux = x + 1;
-    if (c_aux == cols){
-      c_aux = 0;
-    }
-    if (array[tId*4] == 1){
-      array[(y*rows + c_aux)*4] = array[tId*4]*2;
-    }
-
-    //left
-    c_aux = x - 1;
+    int c_aux = x -1;
     if (c_aux < 0){
       c_aux = cols -1;
     }
-    if (array[tId*4+2] == 1){
-      array[(y*rows + c_aux)*4 + 2] = array[tId*4+2]*2;
+    if (buffer[(y*rows + c_aux)*4] == 1){
+      array[tId*4] = 1;
+    }else if (buffer[(y*rows + c_aux)*4] == 0){
+      array[tId*4] = 0;
+    }
+
+    c_aux = x + 1;
+    if (c_aux == cols){
+      c_aux = 0;
+    }
+    if (buffer[(y*rows + c_aux)*4+2] == 1){
+      array[tId*4+2] = 1;
+    }else if (buffer[(y*rows + c_aux)*4+2] == 0){
+      array[tId*4+2] = 0;
     }
 
     //top
-    c_aux = y + 1;
-    if (c_aux == rows){
-      c_aux = 0;
+    c_aux = y - 1;
+    if (c_aux <0){
+      c_aux = rows-1;
     }
-    if (array[tId*4+1] == 1){
-      array[(c_aux*rows + x)*4 + 1] = array[tId*4+1]*2;
+    if (buffer[(c_aux*rows + x)*4 + 1] == 1){
+      array[tId*4+1] = 1;
+    }else if (buffer[(c_aux*rows + x)*4+1] == 0){
+      array[tId*4+1] = 0;
     }
 
     //bottom
     c_aux = y + 1;
-    if (c_aux < 0){
-      c_aux = rows-1;
+    if (c_aux == rows){
+      c_aux = 0;
     }
-    if (array[tId*4+3] == 1){
-      array[(c_aux*rows + x)*4 + 3] = array[tId*4+3]*2;
+    if (buffer[(c_aux*rows + x)*4 + 3] == 1){
+      array[tId*4+3] = 1;
+    }else if(buffer[(c_aux*rows + x)*4+3] == 0){
+      array[tId*4+3] = 0;
     }
   }
 }
-__global__ void correction(int * array,int rows, int cols){
-  int tId = threadIdx.x + blockIdx.x * blockDim.x;
-  if (tId < rows*cols){
-      for(int i = 0; i < 4; i++){
-        if(array[tId*4+i] == 1){
-          array[tId*4+i] = 0;
-        }
-        if(array[tId*4+i] == 2){
-          array[tId*4+i] = 1;
-        }
-      } 
-    }
-};  
 
 int main(int argc, char const *argv[])
 {
@@ -112,7 +121,7 @@ int main(int argc, char const *argv[])
   int *Aos;
   int *d_Aos;
 
-  readInput_aos("../initial.txt", &Aos, &rows, &cols);
+  readInput_aos("../initial3.txt", &Aos, &rows, &cols);
 
   int n = (int)(rows*cols);
   int block_size = 256;
@@ -121,9 +130,8 @@ int main(int argc, char const *argv[])
   cudaMalloc(&d_Aos, 4 * rows * cols * sizeof(int));
   cudaMemcpy(d_Aos, Aos, 4 * rows * cols * sizeof(int), cudaMemcpyHostToDevice);
 
-  for(int k = 0; k < 1000; k++){
-    step_periodic_Aos<<<grid_size, block_size>>>(d_Aos, rows, cols);
-    correction<<<grid_size, block_size>>>(d_Aos, rows, cols);
+  for(int k = 0; k < 20; k++){
+    step_periodic_Aos<<<grid_size, block_size,rows*cols*4>>>(d_Aos, rows, cols);
   }
 
   cudaMemcpy(Aos, d_Aos, 4 * rows * cols * sizeof(int), cudaMemcpyDeviceToHost);
@@ -132,4 +140,3 @@ int main(int argc, char const *argv[])
 return 0;
 
 }
-
