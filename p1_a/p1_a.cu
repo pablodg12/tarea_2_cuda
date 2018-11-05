@@ -57,16 +57,16 @@ __global__ void step_periodic_Aos(int * array,int rows, int cols){
   }
   __syncthreads();
 
-  if(tId == 1){
-    for(int i = 0; i < rows*cols*4;i++){
-      printf("%d ", buffer[i]);
-      printf(" ");
-    if ((i+1)%4 == 0){
-          printf("|");
-      }
-  }
-  printf("\n");
-}
+  //if(tId == 1){
+  //  for(int i = 0; i < rows*cols*4;i++){
+  //    printf("%d ", buffer[i]);
+  //    printf(" ");
+  //  if ((i+1)%4 == 0){
+  //        printf("|");
+  //    }
+ // }
+  //printf("\n");
+//}
   if (tId < rows*cols){
     int x = tId%(cols);
     int y = (int) tId/rows;
@@ -121,7 +121,7 @@ int main(int argc, char const *argv[])
   int *Aos;
   int *d_Aos;
 
-  readInput_aos("../initial3.txt", &Aos, &rows, &cols);
+  readInput_aos("../initial.txt", &Aos, &rows, &cols);
 
   int n = (int)(rows*cols);
   int block_size = 256;
@@ -130,7 +130,7 @@ int main(int argc, char const *argv[])
   cudaMalloc(&d_Aos, 4 * rows * cols * sizeof(int));
   cudaMemcpy(d_Aos, Aos, 4 * rows * cols * sizeof(int), cudaMemcpyHostToDevice);
 
-  for(int k = 0; k < 20; k++){
+  for(int k = 0; k < 1000; k++){
     step_periodic_Aos<<<grid_size, block_size,rows*cols*4>>>(d_Aos, rows, cols);
   }
 
