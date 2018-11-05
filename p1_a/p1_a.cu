@@ -90,17 +90,20 @@ __global__ void step_periodic_Aos(int * array,int rows, int cols){
     if (array[tId*4+3] == 1){
       array[(c_aux*rows + x)*4 + 3] = array[tId*4+3]*2;
     }
-
-    //Correction
-    for(int i = 0; i < 4; i++){
-      if(array[tId*4+i] == 1){
-        array[tId*4+i] = 0;
-      }
-      if(array[tId*4+i] == 2){
-        array[tId*4+i] = 1;
-      }
-    };
   }
+}
+__global__ void correction(int * array,int rows, int cols){
+  int tId = threadIdx.x + blockIdx.x * blockDim.x;
+  if (tId < rows*cols){
+      for(int i = 0; i < 4; i++){
+        if(array[tId*4+i] == 1){
+          array[tId*4+i] = 0;
+        }
+        if(array[tId*4+i] == 2){
+          array[tId*4+i] = 1;
+        }
+      } 
+    }
 };  
 
 int main(int argc, char const *argv[])
@@ -120,6 +123,7 @@ int main(int argc, char const *argv[])
 
   for(int k = 0; k < 1000; k++){
     step_periodic_Aos<<<grid_size, block_size>>>(d_Aos, rows, cols);
+    correction<<<grid_size, block_size>>>(d_Aos, rows, cols);
   }
 
   cudaMemcpy(Aos, d_Aos, 4 * rows * cols * sizeof(int), cudaMemcpyDeviceToHost);

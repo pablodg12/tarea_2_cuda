@@ -85,34 +85,38 @@ __global__ void step_periodic_Soa(int * array,int rows, int cols){
       array[(c_aux*rows + x)+ 3*rows*cols] = array[tId+ 3*rows*cols]*2;
     }
 
-    //Correction
-    if(array[tId] == 1){
-      array[tId] = 0;
-    }
-    if(array[tId] == 2){
-      array[tId] = 1;
-    }
-    if(array[tId+ rows*cols] == 1){
-      array[tId+ rows*cols] = 0;
-    }
-    if(array[tId+ rows*cols] == 2){
-      array[tId+ rows*cols] = 1;
-    }
-    if(array[tId+ 2*rows*cols] == 1){
-      array[tId+ 2*rows*cols] = 0;
-    }
-    if(array[tId+ 2*rows*cols] == 2){
-      array[tId+ 2*rows*cols] = 1;
-    }
-    if(array[tId+ 3*rows*cols] == 1){
-      array[tId+ 3*rows*cols] = 0;
-    }
-    if(array[tId+ 3*rows*cols] == 2){
-      array[tId+ 3*rows*cols] = 1;
-    }
-
   }
 };
+
+  __global__ void correction(int * array,int rows, int cols){
+    int tId = threadIdx.x + blockIdx.x * blockDim.x;
+    if (tId < rows*cols){
+      if(array[tId] == 1){
+        array[tId] = 0;
+      }
+      if(array[tId] == 2){
+        array[tId] = 1;
+      }
+      if(array[tId+ rows*cols] == 1){
+        array[tId+ rows*cols] = 0;
+      }
+      if(array[tId+ rows*cols] == 2){
+        array[tId+ rows*cols] = 1;
+      }
+      if(array[tId+ 2*rows*cols] == 1){
+        array[tId+ 2*rows*cols] = 0;
+      }
+      if(array[tId+ 2*rows*cols] == 2){
+        array[tId+ 2*rows*cols] = 1;
+      }
+      if(array[tId+ 3*rows*cols] == 1){
+        array[tId+ 3*rows*cols] = 0;
+      }
+      if(array[tId+ 3*rows*cols] == 2){
+        array[tId+ 3*rows*cols] = 1;
+      }
+    }
+  }
 
 int main(int argc, char const *argv[])
 {
@@ -133,6 +137,7 @@ int main(int argc, char const *argv[])
 
   for(int k = 0; k < 1000; k++){
     step_periodic_Soa<<<grid_size, block_size>>>(d_Soa, rows, cols);
+    correction<<<grid_size, block_size>>>(d_Soa, rows, cols);
   }
 
   cudaMemcpy(Soa, d_Soa, 4 * rows * cols * sizeof(int), cudaMemcpyDeviceToHost);
