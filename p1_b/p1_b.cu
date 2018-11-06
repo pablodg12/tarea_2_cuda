@@ -52,15 +52,16 @@ __global__ void step_periodic_Soa(int * array,int rows, int cols){
     }
   }
   __syncthreads();
+
   //if(tId == 1){
-  //  for(int i = 0; i < rows*cols*4;i++){
+   // for(int i = 0; i < rows*cols*4;i++){
    //   printf("%d ", buffer[i]);
    //   printf(" ");
    //   if ((i+1)%9 == 0){
   //        printf("|");
   //      }
  // }
- // printf("\n");
+//  printf("\n");
 //}
 
 if(tId < rows*cols){
