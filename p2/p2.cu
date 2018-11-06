@@ -117,7 +117,7 @@ int main(int argc, char const *argv[])
   int *array;
   int *d_array;
 
-  readInput("../initial4.txt", &array, &rows, &cols);
+  readInput("../initial.txt", &array, &rows, &cols);
   //printMatrix(array,rows,cols);
 
   int n = (int)(rows*cols);

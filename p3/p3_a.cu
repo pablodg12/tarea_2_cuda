@@ -141,7 +141,7 @@ int main(int argc, char const *argv[])
   int *array;
   int *d_array;
 
-  readInput("../initial4.txt", &array, &rows, &cols);
+  readInput("../initial.txt", &array, &rows, &cols);
   //printMatrix(array,rows,cols);
 
   int n = (int)(rows*cols);
@@ -150,7 +150,7 @@ int main(int argc, char const *argv[])
 
   cudaMalloc(&d_array ,rows * cols * sizeof(int));
   cudaMemcpy(d_array, array, rows * cols * sizeof(int), cudaMemcpyHostToDevice);
-  for(int k = 0; k < 10; k++){
+  for(int k = 0; k < 1000; k++){
     step_periodic<<<grid_size, block_size,rows*cols>>>(d_array, rows, cols);
   }
   cudaMemcpy(array, d_array, rows * cols * sizeof(int), cudaMemcpyDeviceToHost);
