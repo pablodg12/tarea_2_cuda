@@ -39,13 +39,13 @@ if(tId < rows*cols){
     if (c_aux < 0){
       c_aux = cols -1;
     }
-    if (buffer[(y*rows + c_aux)*4 + 1] == 1 && buffer[(y*rows + c_aux)*4 + 3] == 1){
+    if (buffer[(y*cols + c_aux)*4 + 1] == 1 && buffer[(y*cols + c_aux)*4 + 3] == 1){
        array[tId*4] = 1;
-    }else if (buffer[(y*rows + c_aux)*4] == 1 && buffer[(y*rows + c_aux) + 2] == 1){
+    }else if (buffer[(y*cols + c_aux)*4] == 1 && buffer[(y*cols + c_aux) + 2] == 1){
       array[tId*4] = 0;
-    }else if (buffer[(y*rows + c_aux)*4] == 1){
+    }else if (buffer[(y*cols + c_aux)*4] == 1){
         array[tId*4] = 1;
-    }else if (buffer[(y*rows + c_aux)*4] == 0){
+    }else if (buffer[(y*cols + c_aux)*4] == 0){
       array[tId*4] = 0;
     }
 
@@ -54,13 +54,13 @@ if(tId < rows*cols){
       c_aux = 0;
     }
 
-    if (buffer[(y*rows + c_aux)*4+1] == 1 && buffer[(y*rows + c_aux)*4 + 3] == 1){
+    if (buffer[(y*cols + c_aux)*4+1] == 1 && buffer[(y*cols + c_aux)*4 + 3] == 1){
        array[tId*4+2] = 1;
-    }else if (buffer[(y*rows + c_aux)*4] == 1 && buffer[(y*rows + c_aux)*4 + 2] == 1){
+    }else if (buffer[(y*cols + c_aux)*4] == 1 && buffer[(y*cols + c_aux)*4 + 2] == 1){
       array[tId*4+2] = 0;
-    }else if (buffer[(y*rows + c_aux)*4+ 2] == 1){
+    }else if (buffer[(y*cols + c_aux)*4+ 2] == 1){
         array[tId*4+2] = 1;
-    }else if (buffer[(y*rows + c_aux)*4+ 2] == 0){
+    }else if (buffer[(y*cols + c_aux)*4+ 2] == 0){
       array[tId*4+2] = 0;
     }
 

@@ -44,14 +44,14 @@ __global__ void step_periodic(int * array,int *buffer,int rows, int cols){
       c_aux = cols-1;
       reject = 0;
     }
-    if (reject ==1 && buffer[(y*rows + c_aux)] == 1 || buffer[(y*rows + c_aux)] == 3 || buffer[(y*rows + c_aux)] == 10 || 
-        buffer[(y*rows + c_aux)] == 9 || buffer[(y*rows + c_aux)] == 7 || buffer[(y*rows + c_aux)] == 11 || 
-        buffer[(y*rows + c_aux)] == 13 || buffer[(y*rows + c_aux)] == 15){
+    if (reject ==1 && buffer[(y*cols + c_aux)] == 1 || buffer[(y*cols + c_aux)] == 3 || buffer[(y*cols + c_aux)] == 10 || 
+        buffer[(y*cols + c_aux)] == 9 || buffer[(y*cols + c_aux)] == 7 || buffer[(y*cols + c_aux)] == 11 || 
+        buffer[(y*cols + c_aux)] == 13 || buffer[(y*cols + c_aux)] == 15){
       total = total + 1;
     }else if(c_aux == 0){
-    		if (buffer[(y*rows + c_aux)] == 4 || buffer[(y*rows + c_aux)] == 10 || buffer[(y*rows + c_aux)] == 6 || 
-        buffer[(y*rows + c_aux)] == 12 || buffer[(y*rows + c_aux)] == 7 || buffer[(y*rows + c_aux)] == 13 || 
-        buffer[(y*rows + c_aux)] == 14 || buffer[(y*rows + c_aux)] == 15){
+    		if (buffer[(y*cols + c_aux)] == 4 || buffer[(y*cols + c_aux)] == 10 || buffer[(y*cols + c_aux)] == 6 || 
+        buffer[(y*cols + c_aux)] == 12 || buffer[(y*cols + c_aux)] == 7 || buffer[(y*cols + c_aux)] == 13 || 
+        buffer[(y*cols + c_aux)] == 14 || buffer[(y*cols + c_aux)] == 15){
     		total = total + 1;	
     		}
     	}else {
@@ -65,14 +65,14 @@ __global__ void step_periodic(int * array,int *buffer,int rows, int cols){
       c_aux = 0;
       reject = 0;
     }
-    if (reject ==1 && buffer[(y*rows + c_aux)] == 4 || buffer[(y*rows + c_aux)] == 10 || buffer[(y*rows + c_aux)] == 6 || 
-        buffer[(y*rows + c_aux)] == 12 || buffer[(y*rows + c_aux)] == 7 || buffer[(y*rows + c_aux)] == 13 || 
-        buffer[(y*rows + c_aux)] == 14 || buffer[(y*rows + c_aux)] == 15){
+    if (reject ==1 && buffer[(y*cols + c_aux)] == 4 || buffer[(y*cols + c_aux)] == 10 || buffer[(y*cols + c_aux)] == 6 || 
+        buffer[(y*cols + c_aux)] == 12 || buffer[(y*cols + c_aux)] == 7 || buffer[(y*cols + c_aux)] == 13 || 
+        buffer[(y*cols + c_aux)] == 14 || buffer[(y*cols + c_aux)] == 15){
       total = total + 4;
     }else if(c_aux == cols-1){
-    		if (buffer[(y*rows + c_aux)] == 1 || buffer[(y*rows + c_aux)] == 3 || buffer[(y*rows + c_aux)] == 10 || 
-        buffer[(y*rows + c_aux)] == 9 || buffer[(y*rows + c_aux)] == 7 || buffer[(y*rows + c_aux)] == 11 || 
-        buffer[(y*rows + c_aux)] == 13 || buffer[(y*rows + c_aux)] == 15){
+    		if (buffer[(y*cols + c_aux)] == 1 || buffer[(y*cols + c_aux)] == 3 || buffer[(y*cols + c_aux)] == 10 || 
+        buffer[(y*cols + c_aux)] == 9 || buffer[(y*cols + c_aux)] == 7 || buffer[(y*cols + c_aux)] == 11 || 
+        buffer[(y*cols + c_aux)] == 13 || buffer[(y*cols + c_aux)] == 15){
     		total = total + 4;	
     		}
     	}else {

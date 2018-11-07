@@ -40,12 +40,12 @@ __global__ void step_periodic(int * array,int *buffer,int rows, int cols){
     int total = 0;
     c_aux = (x -1)*(x-1>0) + (cols-1)*(x-1<0);
     reject = 1*(x-1>0);
-    total = total + 1*(reject ==1)*(buffer[(y*rows + c_aux)]==1)*(buffer[(y*rows + c_aux)]==3)*(buffer[(y*rows + c_aux)]==10)*(buffer[(y*rows + c_aux)]==9)*(buffer[(y*rows + c_aux)]==7)*(buffer[(y*rows + c_aux)]==11)*(buffer[(y*rows + c_aux)]==13)*(buffer[(y*rows + c_aux)]==15);
-    total = total + 1*(c_aux ==0)*(buffer[(y*rows + c_aux)]==4)*(buffer[(y*rows + c_aux)]==10)*(buffer[(y*rows + c_aux)]==6)*(buffer[(y*rows + c_aux)]==12)*(buffer[(y*rows + c_aux)]==7)*(buffer[(y*rows + c_aux)]==13)*(buffer[(y*rows + c_aux)]==14)*(buffer[(y*rows + c_aux)]==15);
+    total = total + 1*(reject ==1)*(buffer[(y*cols + c_aux)]==1)*(buffer[(y*cols + c_aux)]==3)*(buffer[(y*cols + c_aux)]==10)*(buffer[(y*cols + c_aux)]==9)*(buffer[(y*cols + c_aux)]==7)*(buffer[(y*cols + c_aux)]==11)*(buffer[(y*cols + c_aux)]==13)*(buffer[(y*cols + c_aux)]==15);
+    total = total + 1*(c_aux ==0)*(buffer[(y*cols + c_aux)]==4)*(buffer[(y*cols + c_aux)]==10)*(buffer[(y*cols + c_aux)]==6)*(buffer[(y*cols + c_aux)]==12)*(buffer[(y*cols + c_aux)]==7)*(buffer[(y*cols + c_aux)]==13)*(buffer[(y*cols + c_aux)]==14)*(buffer[(y*cols + c_aux)]==15);
     c_aux =(x +1)*(x+1!=cols);
     reject = 1*(x+1!=cols);
-    total = total + 4*(c_aux == cols-1)*(buffer[(y*rows + c_aux)]==1)*(buffer[(y*rows + c_aux)]==3)*(buffer[(y*rows + c_aux)]==10)*(buffer[(y*rows + c_aux)]==9)*(buffer[(y*rows + c_aux)]==7)*(buffer[(y*rows + c_aux)]==11)*(buffer[(y*rows + c_aux)]==13)*(buffer[(y*rows + c_aux)]==15);
-    total = total + 4*(reject ==1)*(buffer[(y*rows + c_aux)]==4)*(buffer[(y*rows + c_aux)]==10)*(buffer[(y*rows + c_aux)]==6)*(buffer[(y*rows + c_aux)]==12)*(buffer[(y*rows + c_aux)]==7)*(buffer[(y*rows + c_aux)]==13)*(buffer[(y*rows + c_aux)]==14)*(buffer[(y*rows + c_aux)]==15);
+    total = total + 4*(c_aux == cols-1)*(buffer[(y*cols + c_aux)]==1)*(buffer[(y*cols + c_aux)]==3)*(buffer[(y*cols + c_aux)]==10)*(buffer[(y*cols + c_aux)]==9)*(buffer[(y*cols + c_aux)]==7)*(buffer[(y*cols + c_aux)]==11)*(buffer[(y*cols + c_aux)]==13)*(buffer[(y*cols + c_aux)]==15);
+    total = total + 4*(reject ==1)*(buffer[(y*cols + c_aux)]==4)*(buffer[(y*cols + c_aux)]==10)*(buffer[(y*cols + c_aux)]==6)*(buffer[(y*cols + c_aux)]==12)*(buffer[(y*cols + c_aux)]==7)*(buffer[(y*cols + c_aux)]==13)*(buffer[(y*cols + c_aux)]==14)*(buffer[(y*cols + c_aux)]==15);
     c_aux = (((y+1)%rows)*cols);
     reject = 1*(y+1!=cols);
     total = total + 2*(reject ==1)*(buffer[(c_aux + x)]==2)*(buffer[(c_aux + x)]==3)*(buffer[(c_aux + x)]==6)*(buffer[(c_aux + x)]==5)*(buffer[(c_aux + x)]==7)*(buffer[(c_aux + x)]==11)*(buffer[(c_aux + x)]==14)*(buffer[(c_aux + x)]==15);

@@ -34,13 +34,13 @@ if(tId < rows*cols){
     if (c_aux < 0){
       c_aux = cols -1;
     }
-    if (buffer[(y*rows + c_aux) + rows*cols] == 1 && buffer[(y*rows + c_aux) + 3*rows*cols] == 1){
+    if (buffer[(y*cols + c_aux) + rows*cols] == 1 && buffer[(y*cols + c_aux) + 3*rows*cols] == 1){
        array[tId] = 1;
-    }else if (buffer[(y*rows + c_aux)] == 1 && buffer[(y*rows + c_aux) + 2*rows*cols] == 1){
+    }else if (buffer[(y*cols + c_aux)] == 1 && buffer[(y*cols + c_aux) + 2*rows*cols] == 1){
       array[tId] = 0;
-    }else if (buffer[(y*rows + c_aux)] == 1){
+    }else if (buffer[(y*cols + c_aux)] == 1){
         array[tId] = 1;
-    }else if (buffer[(y*rows + c_aux)] == 0){
+    }else if (buffer[(y*cols + c_aux)] == 0){
       array[tId] = 0;
     }
 
@@ -49,13 +49,13 @@ if(tId < rows*cols){
       c_aux = 0;
     }
 
-    if (buffer[(y*rows + c_aux) + rows*cols] == 1 && buffer[(y*rows + c_aux) + 3*rows*cols] == 1){
+    if (buffer[(y*cols + c_aux) + rows*cols] == 1 && buffer[(y*cols + c_aux) + 3*rows*cols] == 1){
        array[tId+2*rows*cols] = 1;
-    }else if (buffer[(y*rows + c_aux)] == 1 && buffer[(y*rows + c_aux) + 2*rows*cols] == 1){
+    }else if (buffer[(y*cols + c_aux)] == 1 && buffer[(y*cols + c_aux) + 2*rows*cols] == 1){
       array[tId+2*rows*cols] = 0;
-    }else if (buffer[(y*rows + c_aux)+ 2*rows*cols] == 1){
+    }else if (buffer[(y*cols + c_aux)+ 2*rows*cols] == 1){
         array[tId+2*rows*cols] = 1;
-    }else if (buffer[(y*rows + c_aux)+ 2*rows*cols] == 0){
+    }else if (buffer[(y*cols + c_aux)+ 2*rows*cols] == 0){
       array[tId+2*rows*cols] = 0;
     }
     c_aux = y - 1;

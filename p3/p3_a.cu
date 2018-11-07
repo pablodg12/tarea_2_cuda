@@ -43,14 +43,14 @@ __global__ void step_periodic(int * array,int *buffer,int rows, int cols){
     c_aux = (x-1 < 0 ? cols-1 : x-1);
     reject = (x-1 < 0 ? 0:1);
 
-    total = (reject ==1? (buffer[(y*rows + c_aux)]==1?(buffer[(y*rows + c_aux)] == 3?(buffer[(y*rows + c_aux)] == 10? (buffer[(y*rows + c_aux)] == 9?(buffer[(y*rows + c_aux)]==7?(buffer[(y*rows + c_aux)]==11?(buffer[(y*rows + c_aux)]==13?(buffer[(y*rows + c_aux)] == 15? total+1:0):0):0):0):0):0):0):0):0);
-    total = (c_aux==0? (buffer[(y*rows + c_aux)]==4?(buffer[(y*rows + c_aux)] == 10?(buffer[(y*rows + c_aux)] == 6? (buffer[(y*rows + c_aux)] == 12?(buffer[(y*rows + c_aux)]==7?(buffer[(y*rows + c_aux)]==13?(buffer[(y*rows + c_aux)]==14?(buffer[(y*rows + c_aux)] == 15? total+1:0):0):0):0):0):0):0):0):0);
+    total = (reject ==1? (buffer[(y*cols + c_aux)]==1?(buffer[(y*cols + c_aux)] == 3?(buffer[(y*cols + c_aux)] == 10? (buffer[(y*cols + c_aux)] == 9?(buffer[(y*cols + c_aux)]==7?(buffer[(y*cols + c_aux)]==11?(buffer[(y*cols + c_aux)]==13?(buffer[(y*cols + c_aux)] == 15? total+1:0):0):0):0):0):0):0):0):0);
+    total = (c_aux==0? (buffer[(y*cols + c_aux)]==4?(buffer[(y*cols + c_aux)] == 10?(buffer[(y*cols + c_aux)] == 6? (buffer[(y*cols + c_aux)] == 12?(buffer[(y*cols + c_aux)]==7?(buffer[(y*cols + c_aux)]==13?(buffer[(y*cols + c_aux)]==14?(buffer[(y*cols + c_aux)] == 15? total+1:0):0):0):0):0):0):0):0):0);
 
     c_aux = (x+1 == cols ? 0: x+1);
     reject = (x+1 == cols ? 0:1);
 
-    total = (reject ==1? (buffer[(y*rows + c_aux)]==4?(buffer[(y*rows + c_aux)] == 10?(buffer[(y*rows + c_aux)] == 6? (buffer[(y*rows + c_aux)] == 12?(buffer[(y*rows + c_aux)]==7?(buffer[(y*rows + c_aux)]==13?(buffer[(y*rows + c_aux)]==14?(buffer[(y*rows + c_aux)] == 15? total+4:0):0):0):0):0):0):0):0):0);
-    total = (c_aux==0? (buffer[(y*rows + c_aux)]==1?(buffer[(y*rows + c_aux)] == 3?(buffer[(y*rows + c_aux)] == 10? (buffer[(y*rows + c_aux)] == 9?(buffer[(y*rows + c_aux)]==7?(buffer[(y*rows + c_aux)]==11?(buffer[(y*rows + c_aux)]==13?(buffer[(y*rows + c_aux)] == 15? total+4:0):0):0):0):0):0):0):0):0);
+    total = (reject ==1? (buffer[(y*cols + c_aux)]==4?(buffer[(y*cols + c_aux)] == 10?(buffer[(y*cols + c_aux)] == 6? (buffer[(y*cols + c_aux)] == 12?(buffer[(y*cols + c_aux)]==7?(buffer[(y*cols + c_aux)]==13?(buffer[(y*cols + c_aux)]==14?(buffer[(y*cols + c_aux)] == 15? total+4:0):0):0):0):0):0):0):0):0);
+    total = (c_aux==0? (buffer[(y*cols + c_aux)]==1?(buffer[(y*cols + c_aux)] == 3?(buffer[(y*cols + c_aux)] == 10? (buffer[(y*cols + c_aux)] == 9?(buffer[(y*cols + c_aux)]==7?(buffer[(y*cols + c_aux)]==11?(buffer[(y*cols + c_aux)]==13?(buffer[(y*cols + c_aux)] == 15? total+4:0):0):0):0):0):0):0):0):0);
 
     c_aux = (((y+1)%rows)*cols);
     reject = (y+1 == cols ? 0:1);
