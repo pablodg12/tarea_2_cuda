@@ -55,19 +55,19 @@ __global__ void step_periodic(int * array,int *buffer,int rows, int cols){
     c_aux = (((y+1)%rows)*cols);
     reject = (y+1 == cols ? 0:1);
 
-    total = (reject ==1? (buffer[(y*rows + c_aux)]==2?(buffer[(y*rows + c_aux)] == 3?(buffer[(y*rows + c_aux)] == 6? (buffer[(y*rows + c_aux)] == 5?(buffer[(y*rows + c_aux)]==7?(buffer[(y*rows + c_aux)]==11?(buffer[(y*rows + c_aux)]==14?(buffer[(y*rows + c_aux)] == 15? total+2:0):0):0):0):0):0):0):0):0);
-    total = (c_aux==0? (buffer[(y*rows + c_aux)]==8?(buffer[(y*rows + c_aux)] == 12?(buffer[(y*rows + c_aux)] == 5? (buffer[(y*rows + c_aux)] == 9?(buffer[(y*rows + c_aux)]==14?(buffer[(y*rows + c_aux)]==13?(buffer[(y*rows + c_aux)]==11?(buffer[(y*rows + c_aux)] == 15? total+2:0):0):0):0):0):0):0):0):0);
+    total = (reject ==1? (buffer[(c_aux + x)]==2?(buffer[(c_aux + x)] == 3?(buffer[(c_aux + x)] == 6? (buffer[(c_aux + x)] == 5?(buffer[(c_aux + x)]==7?(buffer[(c_aux + x)]==11?(buffer[(c_aux + x)]==14?(buffer[(c_aux + x)] == 15? total+2:0):0):0):0):0):0):0):0):0);
+    total = (c_aux==0? (buffer[(c_aux + x)]==8?(buffer[(c_aux + x)] == 12?(buffer[(c_aux + x)] == 5? (buffer[(c_aux + x)] == 9?(buffer[(c_aux + x)]==14?(buffer[(c_aux + x)]==13?(buffer[(c_aux + x)]==11?(buffer[(c_aux + x)] == 15? total+2:0):0):0):0):0):0):0):0):0);
 
     c_aux = (((y-1)%rows)+rows)%rows*cols;
     reject = (y-1 < 0 ? 0:1);
 
-    total = (reject ==1? (buffer[(y*rows + c_aux)]==8?(buffer[(y*rows + c_aux)] == 12?(buffer[(y*rows + c_aux)] == 5? (buffer[(y*rows + c_aux)] == 9?(buffer[(y*rows + c_aux)]==14?(buffer[(y*rows + c_aux)]==13?(buffer[(y*rows + c_aux)]==11?(buffer[(y*rows + c_aux)] == 15? total+8:0):0):0):0):0):0):0):0):0);
-    total = (c_aux==0? (buffer[(y*rows + c_aux)]==2?(buffer[(y*rows + c_aux)] == 3?(buffer[(y*rows + c_aux)] == 6? (buffer[(y*rows + c_aux)] == 5?(buffer[(y*rows + c_aux)]==7?(buffer[(y*rows + c_aux)]==11?(buffer[(y*rows + c_aux)]==14?(buffer[(y*rows + c_aux)] == 15? total+8:0):0):0):0):0):0):0):0):0);
+
+    total = (c_aux==0? (buffer[(c_aux + x)]==2?(buffer[(c_aux + x)] == 3?(buffer[(c_aux + x)] == 6? (buffer[(c_aux + x)] == 5?(buffer[(c_aux + x)]==7?(buffer[(c_aux + x)]==11?(buffer[(c_aux + x)]==14?(buffer[(c_aux + x)] == 15? total+2:0):0):0):0):0):0):0):0):0);
+    total = (reject ==1? (buffer[(c_aux + x)]==8?(buffer[(c_aux + x)] == 12?(buffer[(c_aux + x)] == 5? (buffer[(c_aux + x)] == 9?(buffer[(c_aux + x)]==14?(buffer[(c_aux + x)]==13?(buffer[(c_aux + x)]==11?(buffer[(c_aux + x)] == 15? total+2:0):0):0):0):0):0):0):0):0);
 
     array[tId] = total;
   }
 }
-
 int main(int argc, char const *argv[])
 {
   int rows, cols;
