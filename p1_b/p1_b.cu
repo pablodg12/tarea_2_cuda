@@ -87,16 +87,6 @@ if(tId < rows*cols){
       array[tId+3*rows*cols] = 0;
     }
   }
-   if(tId == 1){
-    for(int i = 0; i < 4*rows*cols;i++){
-      printf("%d ", array[i]);
-      
-        if ((i+1)%9 == 0){
-          printf("|");
-        }
-}
-    printf("\n");
- }
  }  
 int main(int argc, char const *argv[])
 {
@@ -104,8 +94,7 @@ int main(int argc, char const *argv[])
   int *array;
   int *d_array;
   int *d_buffer;
-  readInput_soa("../initial4.txt", &array, &rows, &cols);
-  printMatrix(array,rows,cols);
+  readInput_soa("../initial.txt", &array, &rows, &cols);
   int n = (int)(rows*cols);
   int block_size = 256;
   int grid_size = (int) ceil((float) n/ block_size);
@@ -114,7 +103,7 @@ int main(int argc, char const *argv[])
   cudaMalloc(&d_buffer,4*rows*cols*sizeof(int));
   cudaMemcpy(d_array, array,4* rows * cols * sizeof(int), cudaMemcpyHostToDevice);
   cudaMemcpy(d_buffer, array,4* rows * cols * sizeof(int), cudaMemcpyHostToDevice);
-  for(int k = 0; k < 10; k++){
+  for(int k = 0; k < 1000; k++){
     step_periodic<<<grid_size, block_size>>>(d_array, d_buffer, rows, cols);
     cudaMemcpy(d_buffer,d_array,4*rows*cols * sizeof(int), cudaMemcpyDeviceToDevice);
   }
